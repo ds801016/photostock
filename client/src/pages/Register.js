@@ -80,7 +80,7 @@ const Register = () => {
             name="password"
             onChange={handleInput}
             value={newUser.password}
-            type={showPassword ? "text" : "password"}
+            type="password"
             placeholder="Please enter your password"
           ></input>
 
