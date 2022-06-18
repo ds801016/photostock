@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { register, reset as userReset } from "../features/authSlice";
 import Spinner from "../components/Spinner";
 import Alert from "@mui/material/Alert";
+import axios from "axios";
 
 const Register = () => {
   const [newUser, setNewUser] = useState({
@@ -12,6 +13,11 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [emailValidated, setEmailValidated] = useState(false);
+  const [pageError, setPageError] = useState("");
+  const [codeInput, setCodeInput] = useState("");
+  const [code, setCode] = useState("");
+  const [showCodeInput, setShowCodeInput] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const {
@@ -22,6 +28,37 @@ const Register = () => {
     isLoading,
   } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const validateEmail = async () => {
+    if (newUser.email.length > 0) {
+      let randCode = Math.floor(Math.random() * 899999 + 100000).toString();
+      setCode(randCode);
+      setShowCodeInput(true);
+      setTimeout(() => {
+        setShowCodeInput(false);
+        setPageError("Timeout! Please Validate again or resend the mail");
+      }, 900000);
+      const { data } = await axios.post("/user/validateEmail", {
+        randCode,
+        email: newUser.email,
+      });
+    }
+  };
+  const checkCode = () => {
+    if (code == codeInput) {
+      setShowCodeInput(false);
+      setEmailValidated(true);
+    } else {
+      setPageError("Wrong Code Please try again");
+    }
+  };
+  const validateCode = (e) => {
+    setPageError("");
+    if (e.target.value.length <= 6) {
+      setCodeInput(e.target.value);
+    } else if (e.target.value.length == 6) {
+      // setCodeInput(e.target.value);
+    }
+  };
   const handleInput = (e) => {
     setNewUser({
       ...newUser,
@@ -49,6 +86,11 @@ const Register = () => {
       <div>
         {isLoading && <Spinner />}
         <p className="page-heading">Please Sign Up to upload photos</p>
+        {pageError.length > 0 && (
+          <Alert className="alert-message" severity="error">
+            {pageError}
+          </Alert>
+        )}
         {isError && message.length > 0 && (
           <Alert className="alert-message" severity="error">
             {message}
@@ -74,6 +116,7 @@ const Register = () => {
             onChange={handleInput}
             value={newUser.email}
             type="email"
+            disabled={showCodeInput || emailValidated}
             placeholder="Please enter your email"
           ></input>
           <input
@@ -87,7 +130,38 @@ const Register = () => {
             <input type="checkbox" onChange={toggleShowPassword} />
             <label for="vehicle1"> Show password</label>
           </div>
-          <button>Submit</button>
+          {showCodeInput && !emailValidated && (
+            <>
+              <input
+                name="codee"
+                onChange={validateCode}
+                value={codeInput}
+                type="text"
+                placeholder="Enter the 6 digit code sent on email"
+              />
+              <button
+                type="button"
+                disabled={codeInput.length < 6 && true}
+                onClick={checkCode}
+              >
+                Check Code
+              </button>
+            </>
+          )}
+          {!showCodeInput && !emailValidated && (
+            <button type="button" onClick={validateEmail}>
+              Validate Email
+            </button>
+          )}
+
+          {emailValidated && (
+            <input
+              className="submit-btn"
+              type="submit"
+              value="Create Account"
+            />
+          )}
+          {/* <input type="submit">Submit</input> */}
           <NavLink to="/login">Already have an account. Sign In</NavLink>
         </form>
       </div>

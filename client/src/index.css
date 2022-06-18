@@ -188,6 +188,7 @@ footer {
   color: var(--shadow);
 }
 .add-form button,
+.add-form .submit-btn,
 .link-btn {
   width: 40%;
   height: 50px;
@@ -201,6 +202,10 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+button:disabled {
+  background-color: rgb(117, 117, 117);
+  cursor: auto;
 }
 .add-form .show-password {
   display: flex;

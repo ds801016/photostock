@@ -4,6 +4,7 @@ const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const expressAsyncHandler = require("express-async-handler");
 const protect = require("../middleware/authMiddleware");
+const nodemailer = require("nodemailer");
 
 const loginFunction = async (req, user) => {
   if (user._id) {
@@ -11,7 +12,32 @@ const loginFunction = async (req, user) => {
     console.log(req.session);
   }
 };
+const sendMail = async ({ randCode, email }) => {
+  let testAccount = await nodemailer.createTestAccount();
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "ds801015@gmail.com",
+      pass: "rexxwodausgsnpza",
+    },
+  });
 
+  let sentMail = await transporter.sendMail({
+    from: '"Devesh" "<ds801015@gmail.com>"',
+    to: email,
+    subject: "Confirmation Code",
+    html: `<h3>This is your confirmation code for PhotoStock, this code willl be valid for 15 minutes</h3> <h2>${randCode}</h2>`,
+  });
+  console.log(sentMail);
+};
+
+router.post("/validateEmail", async (req, res) => {
+  console.log(req.body);
+  const { randCode, email } = req.body;
+  console.log("this is the random code" + randCode);
+  const data = await sendMail({ randCode, email });
+  res.json(data);
+});
 router.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
@@ -47,6 +73,7 @@ router.post(
 router.post(
   "/login",
   expressAsyncHandler(async (req, res, next) => {
+    // sendMail();
     const { email, password } = req.body;
     // console.log(req.body);
     const existingUser = await User.findOne({ email }).populate("favPhotos");
