@@ -12,7 +12,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-  // const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const {
     user: loggedUser,
@@ -33,9 +33,9 @@ const Register = () => {
     e.preventDefault();
     dispatch(register(newUser));
   };
-  // const toggleShowwPassword = () => {
-  //   setShowPassword(!showPassword);
-  // };
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   useEffect(() => {
     if (loggedUser != null) {
       navigate("/");
@@ -80,10 +80,13 @@ const Register = () => {
             name="password"
             onChange={handleInput}
             value={newUser.password}
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Please enter your password"
           ></input>
-
+          <div className="show-password">
+            <input type="checkbox" onChange={toggleShowPassword} />
+            <label for="vehicle1"> Show password</label>
+          </div>
           <button>Submit</button>
           <NavLink to="/login">Already have an account. Sign In</NavLink>
         </form>

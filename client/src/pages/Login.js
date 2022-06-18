@@ -17,6 +17,7 @@ const Login = () => {
     message,
     isLoading,
   } = useSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = (e) => {
@@ -28,6 +29,9 @@ const Login = () => {
       ...user,
       [e.target.name]: e.target.value,
     });
+  };
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
   useEffect(() => {
     if (loggedUser != null) {
@@ -52,16 +56,20 @@ const Login = () => {
             name="email"
             onChange={handleInput}
             value={user.email}
-            type="email"
+            type="text"
             placeholder="Please enter your email"
           ></input>
           <input
             name="password"
             onChange={handleInput}
             value={user.password}
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Please enter your password"
           ></input>
+          <div className="show-password">
+            <input type="checkbox" onChange={toggleShowPassword} />
+            <label for="vehicle1"> Show password</label>
+          </div>
           <button>Login</button>
           <NavLink to="/register">Don't have an account. Sign Up</NavLink>
         </form>

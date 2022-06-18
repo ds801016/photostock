@@ -130,6 +130,7 @@
   height: 1px;
   /* width: 120%; */
 }
+
 .header .btn-div a:hover::after,
 .add-form a:hover::after {
   width: 100%;
@@ -200,6 +201,21 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.add-form .show-password {
+  display: flex;
+  /* background-color: red; */
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 5px;
+}
+.add-form .show-password input {
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  padding: 0;
+  margin-right: 10px;
 }
 .spinner {
   height: calc(100vh - 80px);
