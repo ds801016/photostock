@@ -12,6 +12,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const {
     user: loggedUser,
@@ -31,6 +32,9 @@ const Register = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     dispatch(register(newUser));
+  };
+  const toggleShowwPassword = () => {
+    setShowPassword(!showPassword);
   };
   useEffect(() => {
     if (loggedUser != null) {
@@ -76,9 +80,12 @@ const Register = () => {
             name="password"
             onChange={handleInput}
             value={newUser.password}
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Please enter your password"
           ></input>
+          <input type="checkbox" onChange={toggleShowwPassword}>
+            Show Password
+          </input>
           <button>Submit</button>
           <NavLink to="/login">Already have an account. Sign In</NavLink>
         </form>
