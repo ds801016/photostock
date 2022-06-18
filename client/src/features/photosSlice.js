@@ -16,11 +16,11 @@ export const getPhotos = createAsyncThunk(
   async (user, thunkAPI) => {
     try {
       if (user) {
-        const { data } = await axios.get(`/api/photos/?user=${user}`);
+        const { data } = await axios.get(`/photos/?user=${user}`);
         // console.log(data);
         return await data;
       }
-      const { data } = await axios.get(`/api/photos`);
+      const { data } = await axios.get(`/photos`);
       // console.log(arrayChunker(data, 3)[0]);
       // console.log(arrayChunker(data, 3)[1]);
       // console.log(arrayChunker(data, 3)[2]);

@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
   "auth/register",
   async (newUser, thunkAPI) => {
     try {
-      const { data } = await axios.post(`/api/user/register`, newUser);
+      const { data } = await axios.post(`/user/register`, newUser);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       return await data;
@@ -40,7 +40,7 @@ export const register = createAsyncThunk(
 //logout slice
 export const logout = createAsyncThunk(`/auth/logout`, async (_, thunkAPI) => {
   try {
-    const { data } = await axios.post("/api/user/logout");
+    const { data } = await axios.post("/user/logout");
     localStorage.clear();
     return await data;
   } catch (e) {
@@ -55,7 +55,7 @@ export const logout = createAsyncThunk(`/auth/logout`, async (_, thunkAPI) => {
 //login slice
 export const login = createAsyncThunk(`/auth/login`, async (user, thunkAPI) => {
   try {
-    const { data } = await axios.post("/api/user/login", user);
+    const { data } = await axios.post("/user/login", user);
     localStorage.setItem("user", JSON.stringify(data.user));
     return await data;
   } catch (e) {
@@ -72,7 +72,7 @@ export const profile = createAsyncThunk(
   "auth/getProfile",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`/api/user/profile`);
+      const { data } = await axios.get(`/user/profile`);
       console.log(data);
       return await data;
     } catch (e) {
@@ -90,7 +90,7 @@ export const addFavPhoto = createAsyncThunk(
   "auth/addFavPhoto",
   async ({ photoId, userId }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`/api/user/${userId}`, { photoId });
+      const { data } = await axios.patch(`/user/${userId}`, { photoId });
       // console.log(data);
       return await data;
     } catch (e) {
