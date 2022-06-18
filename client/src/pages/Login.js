@@ -52,14 +52,14 @@ const Login = () => {
             name="email"
             onChange={handleInput}
             value={user.email}
-            type="text"
+            type="email"
             placeholder="Please enter your email"
           ></input>
           <input
             name="password"
             onChange={handleInput}
             value={user.password}
-            type="text"
+            type="password"
             placeholder="Please enter your password"
           ></input>
           <button>Login</button>

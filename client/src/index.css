@@ -525,8 +525,10 @@ footer {
     padding-bottom: 1rem;
     /* box-shadow: 0px 2px 5px 0px var(--shadow); */
   }
-  .header a.mainHeading {
+  .header {
     padding: 0 20px;
+  }
+  .header a.mainHeading {
     font-size: 1.3rem;
   }
 }
