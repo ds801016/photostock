@@ -20,10 +20,10 @@ router.get(
         );
         // console.log(req.session.user.userId);
 
-        res.send(photos);
+        res.send(photos.reverse());
       } else {
         const photos = await Photo.find().populate("user");
-        res.send(photos);
+        res.send(photos.reverse());
       }
     } catch (e) {
       console.log(e);
@@ -46,6 +46,8 @@ router.post(
       // console.log(category);
       // console.log(newPhoto);
       const uploadedImage = await cloudinary.uploader.upload(newPhoto.path);
+      console.log(newPhoto.path);
+      console.log(uploadedImage);
       if (!category || !newPhoto) {
         throw new Error("Please add a category and an image");
       } else if (!userId) {

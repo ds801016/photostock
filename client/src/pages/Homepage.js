@@ -36,7 +36,7 @@ const Homepage = () => {
           {userMessage}
         </Alert>
       )}
-      <PhotosMain photos={photos} user={user} />
+      {photos && photos != null && <PhotosMain photos={photos} />}
     </div>
   );
 };

@@ -8,6 +8,8 @@ import FavPhotos from "./pages/FavPhotos";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "./components/Footer";
+import VallidateEmail from "./components/VallidateEmail";
+
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -20,6 +22,7 @@ function App() {
       {/* <Spinner /> */}
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/validateEmail" element={<VallidateEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />

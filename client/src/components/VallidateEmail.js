@@ -6,20 +6,14 @@ import Spinner from "../components/Spinner";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 
-const Register = () => {
-  const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+const VallidateEmail = () => {
+  const [email, setEmail] = useState("");
   const [emailValidated, setEmailValidated] = useState(false);
   const [pageError, setPageError] = useState("");
   const [codeInput, setCodeInput] = useState("");
-  const location = useLocation();
   const [code, setCode] = useState("");
   const [showCodeInput, setShowCodeInput] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
   const {
     user: loggedUser,
@@ -28,9 +22,10 @@ const Register = () => {
     isSuccess,
     isLoading,
   } = useSelector((state) => state.auth);
+  const location = useLocation();
   const navigate = useNavigate();
   const validateEmail = async () => {
-    if (newUser.email.length > 0) {
+    if (email.length > 0) {
       let randCode = Math.floor(Math.random() * 899999 + 100000).toString();
       setCode(randCode);
       setShowCodeInput(true);
@@ -40,7 +35,7 @@ const Register = () => {
       }, 900000);
       const { data } = await axios.post("/user/validateEmail", {
         randCode,
-        email: newUser.email,
+        email,
       });
     }
   };
@@ -61,19 +56,9 @@ const Register = () => {
     }
   };
   const handleInput = (e) => {
-    setNewUser({
-      ...newUser,
-      [e.target.name]: e.target.value,
-    });
+    setEmail(e.target.value);
   };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    dispatch(register(newUser));
-  };
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
   useEffect(() => {
     if (loggedUser != null) {
       navigate("/");
@@ -83,21 +68,15 @@ const Register = () => {
     }, 6000);
   }, [loggedUser, isError]);
   useEffect(() => {
-    if (
-      location.state &&
-      location.state.email &&
-      location.state.validated == true
-    ) {
-      setNewUser({ ...newUser, email: location.state.email });
-    } else {
-      navigate("/validateEmail", { state: { validate: false } });
+    if (location.state.validated && location.state.validated == false) {
+      setPageError("Please validate your email first");
     }
   }, []);
   return (
     <div className="container">
       <div>
         {isLoading && <Spinner />}
-        <p className="page-heading">Please Sign Up to upload photos</p>
+        <p className="page-heading">Please Validate your email for Sign Up</p>
         {pageError.length > 0 && (
           <Alert className="alert-message" severity="error">
             {pageError}
@@ -108,40 +87,22 @@ const Register = () => {
             {message}
           </Alert>
         )}
-        <form onSubmit={handleRegister} className="add-form">
-          <input
-            name="firstName"
-            onChange={handleInput}
-            value={newUser.firstName}
-            type="text"
-            placeholder="Please enter your first name"
-          />
-          <input
-            name="lastName"
-            onChange={handleInput}
-            value={newUser.lastName}
-            type="text"
-            placeholder="Please enter your last name"
-          ></input>
+        <form
+          onSubmit={
+            emailValidated &&
+            navigate("/register", { state: { email, validated: true } })
+          }
+          className="add-form"
+        >
           <input
             name="email"
             onChange={handleInput}
-            value={newUser.email}
+            value={email}
             type="email"
-            disabled
+            disabled={showCodeInput || emailValidated}
             placeholder="Please enter your email"
           ></input>
-          <input
-            name="password"
-            onChange={handleInput}
-            value={newUser.password}
-            type={showPassword ? "text" : "password"}
-            placeholder="Please enter your password"
-          ></input>
-          <div className="show-password">
-            <input type="checkbox" onChange={toggleShowPassword} />
-            <label for="vehicle1"> Show password</label>
-          </div>
+
           {showCodeInput && !emailValidated && (
             <>
               <input
@@ -181,4 +142,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default VallidateEmail;

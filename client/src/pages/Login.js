@@ -71,7 +71,7 @@ const Login = () => {
             <label for="vehicle1"> Show password</label>
           </div>
           <button>Login</button>
-          <NavLink to="/register">Don't have an account. Sign Up</NavLink>
+          <NavLink to="/validateEmail">Don't have an account. Sign Up</NavLink>
         </form>
       </div>
     </div>

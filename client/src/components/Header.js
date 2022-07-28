@@ -119,14 +119,14 @@ const Header = () => {
             onClose={() => handleClose(2)}
           >
             {!user ? (
-              <>
+              <div>
                 {" "}
                 <MenuItem className="header-menu-item" onClick={handleClose}>
                   <NavLink to="/login">Login</NavLink>
                 </MenuItem>
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 <MenuItem className="header-menu-item" onClick={handleClose}>
                   <NavLink to={`/profile/${user.userId}/favPhotos`}>
                     Liked Photos
@@ -141,7 +141,7 @@ const Header = () => {
                   {" "}
                   <p>Logout</p>
                 </MenuItem>
-              </>
+              </div>
             )}
           </Menu>
         </div>

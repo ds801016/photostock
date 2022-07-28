@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 const loginFunction = async (req, user) => {
   if (user._id) {
     req.session.userId = user._id;
-    console.log(req.session);
+    // console.log(req.session);
   }
 };
 const sendMail = async ({ randCode, email }) => {
@@ -32,7 +32,7 @@ const sendMail = async ({ randCode, email }) => {
 };
 
 router.post("/validateEmail", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { randCode, email } = req.body;
   console.log("this is the random code" + randCode);
   const data = await sendMail({ randCode, email });
@@ -112,7 +112,7 @@ router.get(
     try {
       // console.log(req.session);
 
-      console.log(req.session);
+      // console.log(req.session);
       if (req.session.userId) {
         const { userId } = req.session;
         const user = await User.findById(userId).populate("favPhotos");
