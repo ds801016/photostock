@@ -73,7 +73,7 @@ export const profile = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const { data } = await axios.get(`/user/profile`);
-      console.log(data);
+
       return await data;
     } catch (e) {
       const message =
@@ -198,7 +198,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         // console.log(action.payload);
-        console.log(action.payload);
+
         state.user = action.payload;
         // console.log(state.user);
         // state.user = updatedUsers;

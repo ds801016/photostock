@@ -12,7 +12,6 @@ function PhotosMain({ photos, user }) {
   const handleFavDog = (photoId) => {
     // console.log("this is the phot id" + photoId);
     if (user != null) {
-      console.log(user);
       dispatch(addFavPhoto({ userId: user.userId, photoId }));
     } else {
       console.log("no user");
@@ -49,6 +48,7 @@ function PhotosMain({ photos, user }) {
                           >
                             <AiOutlineArrowDown className="photo-icon" />
                           </a>
+
                           {/* download link above */}
                           {user != null && (
                             <>
