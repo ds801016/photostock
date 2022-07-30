@@ -82,17 +82,17 @@ const Register = () => {
       dispatch(userReset());
     }, 6000);
   }, [loggedUser, isError]);
-  useEffect(() => {
-    if (
-      location.state &&
-      location.state.email &&
-      location.state.validated == true
-    ) {
-      setNewUser({ ...newUser, email: location.state.email });
-    } else {
-      navigate("/validateEmail", { state: { validate: false } });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     location.state &&
+  //     location.state.email &&
+  //     location.state.validated == true
+  //   ) {
+  //     setNewUser({ ...newUser, email: location.state.email });
+  //   } else {
+  //     navigate("/validateEmail", { state: { validate: false } });
+  //   }
+  // }, []);
   return (
     <div className="container">
       <div>
@@ -128,7 +128,7 @@ const Register = () => {
             onChange={handleInput}
             value={newUser.email}
             type="email"
-            disabled
+            disabled={emailValidated}
             placeholder="Please enter your email"
           ></input>
           <input
