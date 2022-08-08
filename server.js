@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const dbConnect = require("./config/dbConnect.js");
@@ -8,7 +9,6 @@ const session = require("express-session");
 const photoRoutes = require("./routes/photoRoutes.js");
 // const mongoStore = require("connect-mongodb-session")(session);
 const cookieParser = require("cookie-parser");
-const path = require("path");
 
 dbConnect();
 
@@ -46,17 +46,11 @@ app.use(
 app.use("/user", userRoutes);
 app.use("/photos", photoRoutes);
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(path.join(__dirname, "./client/build")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("server is running");
-  });
-}
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 app.use(ErrorResponse);
 // app.use((err, req, res, next) => {
