@@ -77,7 +77,7 @@ router.post(
 //delete photos
 router.delete(
   "/:photoId",
-  protect,
+  jwtProtect,
   expressAsyncHandler(async (req, res) => {
     const { photoId } = req.params;
     const photo = await Photo.findOne({ cloudinaryId: photoId });

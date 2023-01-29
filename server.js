@@ -29,20 +29,20 @@ app.use(cookieParser());
 //   collection: "userCollection",
 //   uri: process.env.MONGO_URI,
 // });
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    // store: store,
-    cookie: {
-      name: "userSession",
-      sameSite: false,
-      maxAge: 100 * 60 * 60 * 24,
-      httpOnly: true,
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     // store: store,
+//     cookie: {
+//       name: "userSession",
+//       sameSite: false,
+//       maxAge: 100 * 60 * 60 * 24,
+//       httpOnly: true,
+//     },
+//   })
+// );
 app.use("/user", userRoutes);
 app.use("/photos", photoRoutes);
 
